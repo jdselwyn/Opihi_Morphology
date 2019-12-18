@@ -379,7 +379,7 @@ caliper_measures <- caliper_measures %>%
          Height=HeightLengthwise/10) %>%
   
   #Impute missing lengths and widths from the other one
-  nest %>%
+  nest(data = everything()) %>%
   mutate(length_imputation = map(data, ~ .x %>%
                                    dplyr::select(Length,Width) %>%
                                    na.omit() %>%
@@ -961,7 +961,7 @@ opihi_data<-caliper_measures %>%
 #### Bayesian Analysis of Shell Morphology ####
 opihi_shells<-opihi_data %>%
   dplyr::select(data) %>%
-  unnest %>%
+  unnest(cols = c(data)) %>%
   dplyr::select(ShellID, Island, SamplingSite, Length, SurfaceArea, Curve_normalized, 
                 L13_normalized, Height_normalized, Width_normalized,
                 Imputed, starts_with('RibTipColor')) %>%
